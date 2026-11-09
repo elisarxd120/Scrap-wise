@@ -1,0 +1,62 @@
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-mini">♻</div>
+    <div>
+      <strong>Scrap-Wise</strong><span id="admin-name">Administrator</span>
+    </div>
+  </div>
+  <button
+    class="sidebar-close"
+    id="sidebar-close"
+    type="button"
+    aria-label="Close menu"
+  >
+    ×
+  </button>
+  <nav class="sidebar-nav" aria-label="Admin navigation">
+    <div class="nav-section-label">Operations</div>
+    <a href="/admin/dashboard" data-page="dashboard"><span class="nav-icon" aria-hidden="true">⌂</span><span>Dashboard</span></a>
+    <a href="/admin/employees" data-page="employees"><span class="nav-icon" aria-hidden="true">♙</span><span>Employees</span></a>
+    <a href="/admin/attendance" data-page="attendance"><span class="nav-icon" aria-hidden="true">◷</span><span>Attendance</span></a>
+    <a href="/admin/payroll" data-page="payroll"><span class="nav-icon" aria-hidden="true">₱</span><span>Payroll</span></a>
+    <a href="/admin/inventory" data-page="inventory"><span class="nav-icon" aria-hidden="true">▦</span><span>Inventory</span></a>
+    <a href="/admin/transactions" data-page="transactions"><span class="nav-icon" aria-hidden="true">⇄</span><span>Transactions</span></a>
+    <a href="/admin/waste" data-page="waste"><span class="nav-icon" aria-hidden="true">♻</span><span>Waste Analytics</span></a>
+    <div class="nav-section-label">Management</div>
+    <a href="/admin/users" data-page="users"
+      ><span class="nav-icon" aria-hidden="true">♙</span><span>Users</span><span class="nav-badge hidden" id="pending-badge">0</span></a
+    >
+    <a href="/admin/settings" data-page="settings"><span class="nav-icon" aria-hidden="true">⚙</span><span>Settings</span></a>
+    <a href="/admin/reports" data-page="reports"><span class="nav-icon" aria-hidden="true">▤</span><span>Reports</span></a>
+  </nav>
+  <form method="POST" action="/logout">
+    <button class="sidebar-logout" type="submit">Logout</button>
+  </form>
+</aside>
+<button
+  class="mobile-menu"
+  id="mobile-menu"
+  type="button"
+  aria-label="Open menu"
+>
+  ☰
+</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="notification-wrap">
+  <button
+    class="notification-bell"
+    id="notification-bell"
+    type="button"
+    aria-label="Notifications"
+    aria-expanded="false"
+  >
+    🔔 <span class="alert-badge hidden" id="unread-badge">0</span>
+  </button>
+  <div class="notification-dropdown hidden" id="notification-dropdown">
+    <div class="notification-head">
+      <strong>Notifications</strong
+      ><button type="button" id="mark-all-read">Mark all read</button>
+    </div>
+    <div id="notification-list"><p>Loading...</p></div>
+  </div>
+</div>

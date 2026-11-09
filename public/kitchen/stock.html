@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock In / Out - Scrap-Wise</title>
+    <link rel="stylesheet" href="/kitchen/kitchen.css">
+  </head>
+  <body>
+    <div id="kitchen-nav"></div>
+    <main class="kitchen-main">
+      <header class="page-header">
+        <div><p class="eyebrow">Stock management</p><h1>Stock In / Out</h1></div>
+        <a class="help-button" href="/kitchen/guide#stock" aria-label="Stock help">?</a>
+      </header>
+      <div class="low-stock-banner hidden" data-low-stock-banner>Warning: one or more kitchen items are at or below the reorder level.</div>
+      <section class="kitchen-card">
+        <form id="movement-form">
+          <div class="movement-toggle" aria-label="Movement type">
+            <button id="type-in" class="active" type="button" data-type="in">STOCK IN<br><small>Supplies arrived</small></button>
+            <button id="type-out" type="button" data-type="out">STOCK OUT<br><small>Ingredients used</small></button>
+          </div>
+          <input type="hidden" id="movement-type" name="movement_type" value="in">
+          <div class="form-grid" style="margin-top:14px">
+            <div class="field">
+              <label for="item-input">Item</label>
+              <input id="item-input" list="item-options" autocomplete="off" placeholder="Search item" required>
+              <datalist id="item-options"></datalist>
+              <input id="item-id" name="item_id" type="hidden">
+            </div>
+            <div class="field">
+              <label for="movement-quantity">Quantity</label>
+              <input id="movement-quantity" name="quantity" type="number" min="0.01" step="0.01" required>
+              <span class="unit-label" id="item-unit"></span>
+            </div>
+            <div class="field">
+              <label for="movement-date">Date</label>
+              <input id="movement-date" name="movement_date" type="date" required>
+            </div>
+            <div class="field" id="reason-field">
+              <label for="movement-reason">Reason / Notes</label>
+              <textarea id="movement-reason" name="reason" placeholder="Optional note"></textarea>
+              <select id="stock-out-reason" class="hidden" aria-label="Stock Out reason">
+                <option value="">Select a reason</option>
+                <option>Used in cooking</option><option>Spoiled</option><option>Damaged</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <p class="message hidden" id="movement-message"></p>
+          <button class="button primary full-button" type="submit">Save Movement</button>
+        </form>
+      </section>
+      <section class="kitchen-card" style="margin-top:14px">
+        <h2>My recent movements today</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Type</th><th>Quantity</th><th>Reason</th><th>Time</th><th>Action</th></tr></thead>
+            <tbody id="movement-table"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <div class="toast hidden" id="toast" role="status"></div>
+    <script src="/kitchen/nav.js"></script>
+    <script src="/kitchen/stock.js"></script>
+  </body>
+</html>

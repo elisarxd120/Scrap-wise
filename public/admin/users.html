@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>User Management - Scrap-Wise</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+  </head>
+  <body>
+    <div id="admin-nav"></div>
+    <main class="admin-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Administration</p>
+          <h1>User Management</h1>
+        </div>
+      </header>
+      <section class="admin-card">
+        <div class="toolbar">
+          <button
+            class="button primary tab-button"
+            data-tab="pending"
+            type="button"
+          >
+            Pending Registrations</button
+          ><button
+            class="button secondary tab-button"
+            data-tab="all"
+            type="button"
+          >
+            All Users
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name / Username</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Account</th>
+                <th>Registered</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users-table">
+              <tr>
+                <td colspan="6" class="empty">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <div class="modal hidden" id="reset-modal">
+      <div class="modal-card">
+        <header>
+          <h2>Reset Password</h2>
+          <button class="modal-close" data-close="reset-modal" type="button">
+            ×
+          </button>
+        </header>
+        <form id="reset-form">
+          <div class="field">
+            <label for="temporary-password">Temporary Password</label
+            ><input
+              id="temporary-password"
+              type="password"
+              minlength="6"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+          <p class="form-message error" id="reset-error"></p>
+          <footer>
+            <button
+              class="button secondary"
+              data-close="reset-modal"
+              type="button"
+            >
+              Cancel</button
+            ><button class="button primary" type="submit">
+              Reset Password
+            </button>
+          </footer>
+        </form>
+      </div>
+    </div>
+    <div class="toast hidden" id="toast"></div>
+    <script src="/admin/nav.js"></script>
+    <script src="/admin/users.js"></script>
+  </body>
+</html>

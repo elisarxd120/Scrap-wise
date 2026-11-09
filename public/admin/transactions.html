@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Transactions - Scrap-Wise</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+  </head>
+  <body>
+    <div id="admin-nav"></div>
+    <main class="admin-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Sales Management</p>
+          <h1>Transactions</h1>
+        </div>
+      </header>
+      <section class="admin-card">
+        <div class="toolbar filter-toolbar">
+          <label class="search-box"
+            ><span>Start Date</span><input id="start-date" type="date" /></label
+          ><label class="search-box"
+            ><span>End Date</span><input id="end-date" type="date" /></label
+          ><label class="search-box"
+            ><span>Search</span
+            ><input
+              id="search"
+              type="search"
+              placeholder="ID, cashier, item, or payment" /></label
+          ><button class="button primary" id="filter-button" type="button">
+            Filter
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Transaction ID</th>
+                <th>Date &amp; Time</th>
+                <th>Cashier</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="transaction-table">
+              <tr>
+                <td colspan="8" class="empty">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <div class="modal hidden" id="detail-modal">
+      <div class="modal-card">
+        <header>
+          <h2>Transaction Details</h2>
+          <button class="modal-close" data-close="detail-modal" type="button">
+            ×
+          </button>
+        </header>
+        <form id="transaction-form">
+          <div class="form-grid">
+            <div class="field">
+              <label for="payment-method">Payment Method</label
+              ><select id="payment-method" required>
+                <option>Cash</option>
+                <option>Cashless</option>
+                <option>Card</option>
+                <option>GCash</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="line-items"></tbody>
+            </table>
+          </div>
+          <p class="form-message error" id="transaction-error"></p>
+          <footer>
+            <button
+              class="button secondary"
+              data-close="detail-modal"
+              type="button"
+            >
+              Cancel</button
+            ><button class="button primary" type="submit">
+              Save Correction
+            </button>
+          </footer>
+        </form>
+      </div>
+    </div>
+    <div class="modal hidden" id="void-modal">
+      <div class="modal-card">
+        <header>
+          <h2>Void Transaction</h2>
+          <button class="modal-close" data-close="void-modal" type="button">
+            ×
+          </button>
+        </header>
+        <form id="void-form">
+          <div class="field">
+            <label for="void-reason">Reason</label
+            ><input
+              id="void-reason"
+              required
+              placeholder="Required void reason"
+            />
+          </div>
+          <p class="form-message error" id="void-error"></p>
+          <footer>
+            <button
+              class="button secondary"
+              data-close="void-modal"
+              type="button"
+            >
+              Cancel</button
+            ><button class="button danger" type="submit">
+              Void Transaction
+            </button>
+          </footer>
+        </form>
+      </div>
+    </div>
+    <div class="toast hidden" id="toast"></div>
+    <script src="/admin/nav.js"></script>
+    <script src="/admin/transactions.js"></script>
+  </body>
+</html>

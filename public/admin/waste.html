@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waste Analytics - Scrap-Wise</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div id="admin-nav"></div>
+    <main class="admin-main">
+      <header class="page-header">
+        <div><p class="eyebrow">Waste Intelligence</p><h1>Waste Analytics</h1></div>
+        <button class="button secondary" id="refresh-waste" type="button">Refresh</button>
+      </header>
+      <section class="admin-card">
+        <div class="toolbar filter-toolbar">
+          <label class="search-box"><span>From</span><input id="waste-start" type="date" /></label>
+          <label class="search-box"><span>To</span><input id="waste-end" type="date" /></label>
+          <label class="search-box"><span>Device</span><select id="waste-device"><option value="">All devices</option></select></label>
+          <button class="button primary" id="apply-waste-filter" type="button">Apply</button>
+        </div>
+        <p class="form-message error" id="waste-error"></p>
+      </section>
+      <section class="summary-grid" id="waste-summary"><div class="loading-card">Loading...</div></section>
+      <section class="chart-grid">
+        <article class="admin-card"><div class="card-heading"><h2>Daily Waste Trend</h2></div><canvas id="waste-trend-chart"></canvas></article>
+        <article class="admin-card"><div class="card-heading"><h2>Waste by Device</h2></div><canvas id="waste-device-chart"></canvas></article>
+      </section>
+      <section class="admin-card movement-section">
+        <header class="card-heading"><h2>Reading Detail</h2></header>
+        <div class="table-wrap"><table><thead><tr><th>Recorded At</th><th>Device</th><th>Weight</th><th>Status</th></tr></thead><tbody id="waste-table"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody></table></div>
+      </section>
+    </main>
+    <div class="toast hidden" id="toast"></div>
+    <script src="/admin/nav.js"></script>
+    <script src="/admin/waste.js"></script>
+  </body>
+</html>

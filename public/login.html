@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Scrap-Wise</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="auth-page">
+      <section class="auth-card" aria-labelledby="page-title">
+        <div class="brand-mark" aria-hidden="true">SW</div>
+        <h1 id="page-title">Scrap-Wise</h1>
+        <p class="subtitle">Smart Management Information System</p>
+        <form id="login-form" novalidate>
+          <div class="field">
+            <label for="username">Username</label
+            ><input
+              id="username"
+              name="username"
+              type="text"
+              autocomplete="username"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+              /><button
+                class="show-button"
+                type="button"
+                aria-label="Show password"
+              >
+                Show
+              </button>
+            </div>
+          </div>
+          <p id="login-error" class="form-message error" role="alert"></p>
+          <button class="button primary full" type="submit">Login</button>
+        </form>
+        <p class="auth-link">
+          Don't have an account? <a href="/register">Register</a>
+        </p>
+      </section>
+    </main>
+    <script src="/auth.js"></script>
+  </body>
+</html>

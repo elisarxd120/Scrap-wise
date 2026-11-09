@@ -1,0 +1,92 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Check POS JavaScript syntax",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--check",
+				"public/pos/pos.js"
+			],
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Verify POS JavaScript syntax",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/d",
+				"/c",
+				"node --check public/pos/pos.js && echo POS_JS_SYNTAX_OK"
+			],
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Install latest nodemon",
+			"type": "shell",
+			"command": "npm install --save-dev nodemon@latest",
+			"args": [],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "Fix npm audit vulnerabilities",
+			"type": "shell",
+			"command": "npm audit fix",
+			"args": [],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "Run final npm audit",
+			"type": "shell",
+			"command": "npm audit",
+			"args": [],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "Verify Kitchen JavaScript syntax",
+			"type": "shell",
+			"command": "node --check routes/kitchen.js",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify Kitchen public JavaScript syntax",
+			"type": "shell",
+			"command": "node --check public/kitchen/waste.js && node --check public/kitchen/processing.js && node --check public/kitchen/alerts.js",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check Kitchen waste syntax",
+			"type": "shell",
+			"command": "node --check public/kitchen/waste.js",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check Kitchen processing syntax",
+			"type": "shell",
+			"command": "node --check public/kitchen/processing.js",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check Kitchen alerts syntax",
+			"type": "shell",
+			"command": "node --check public/kitchen/alerts.js",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}

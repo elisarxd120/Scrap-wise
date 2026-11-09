@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance - Scrap-Wise</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+  </head>
+  <body>
+    <div id="admin-nav"></div>
+    <main class="admin-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Human Resources</p>
+          <h1>Attendance</h1>
+        </div>
+        <button class="button primary" id="add-attendance" type="button">
+          + Add Attendance
+        </button>
+      </header>
+      <section class="admin-card">
+        <div class="toolbar filter-toolbar">
+          <label class="search-box"
+            ><span>Date</span><input id="attendance-date" type="date" /></label
+          ><label class="search-box"
+            ><span>Employee</span
+            ><select id="attendance-employee">
+              <option value="">All employees</option>
+            </select></label
+          ><button
+            class="button secondary"
+            id="clear-attendance-filter"
+            type="button"
+          >
+            Clear Filters
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Status</th>
+                <th>Hours Worked</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="attendance-table">
+              <tr>
+                <td colspan="7" class="empty">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <div class="modal hidden" id="attendance-modal">
+      <div class="modal-card">
+        <header>
+          <h2 id="attendance-modal-title">Add Attendance</h2>
+          <button
+            class="modal-close"
+            data-close="attendance-modal"
+            type="button"
+          >
+            ×
+          </button>
+        </header>
+        <form id="attendance-form">
+          <div class="form-grid">
+            <div class="field">
+              <label for="attendance_employee">Employee</label
+              ><select
+                id="attendance_employee"
+                name="employee_id"
+                required
+              ></select>
+            </div>
+            <div class="field">
+              <label for="attendance_record_date">Date</label
+              ><input
+                id="attendance_record_date"
+                name="attendance_date"
+                type="date"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="time_in">Time In</label
+              ><input id="time_in" name="time_in" type="time" />
+            </div>
+            <div class="field">
+              <label for="time_out">Time Out</label
+              ><input id="time_out" name="time_out" type="time" />
+            </div>
+            <div class="field">
+              <label for="attendance_status">Status</label
+              ><select id="attendance_status" name="status">
+                <option value="present">Present</option>
+                <option value="late">Late</option>
+                <option value="absent">Absent</option>
+                <option value="leave">Leave</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Hours Worked</label
+              ><input
+                id="hours_preview"
+                type="text"
+                readonly
+                value="0.00 hours"
+              />
+            </div>
+          </div>
+          <p class="form-message error" id="attendance-error"></p>
+          <footer>
+            <button
+              class="button secondary"
+              data-close="attendance-modal"
+              type="button"
+            >
+              Cancel</button
+            ><button class="button primary" type="submit">
+              Save Attendance
+            </button>
+          </footer>
+        </form>
+      </div>
+    </div>
+    <div class="toast hidden" id="toast"></div>
+    <script src="/admin/nav.js"></script>
+    <script src="/admin/attendance.js"></script>
+  </body>
+</html>

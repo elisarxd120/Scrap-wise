@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payroll - Scrap-Wise</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+  </head>
+  <body>
+    <div id="admin-nav"></div>
+    <main class="admin-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Human Resources</p>
+          <h1>Payroll</h1>
+        </div>
+        <button class="button secondary" id="unlock-cycle" type="button">
+          Unlock Cycle
+        </button>
+      </header>
+      <section class="admin-card">
+        <div class="card-heading">
+          <h2>Pay Cycle</h2>
+          <span id="cycle-status" class="status">No cycle selected</span>
+        </div>
+        <form id="cycle-form" class="toolbar payroll-toolbar">
+          <label class="search-box"
+            ><span>Start Date</span
+            ><input
+              id="cycle-start"
+              name="start_date"
+              type="date"
+              required /></label
+          ><label class="search-box"
+            ><span>End Date</span
+            ><input
+              id="cycle-end"
+              name="end_date"
+              type="date"
+              required /></label
+          ><button class="button primary" type="submit">Compute Payroll</button
+          ><button class="button success" id="approve-cycle" type="button">
+            Approve Payroll
+          </button>
+        </form>
+        <div class="deduction-box">
+          <div class="card-heading"><h3>Configurable Deductions</h3></div>
+          <div class="deduction-grid">
+            <label
+              >SSS
+              <input
+                id="deduction-sss"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0" /></label
+            ><label
+              >PhilHealth
+              <input
+                id="deduction-philhealth"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0" /></label
+            ><label
+              >Pag-IBIG
+              <input
+                id="deduction-pagibig"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0" /></label
+            ><label
+              >Cash advance
+              <input
+                id="deduction-cash"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0" /></label
+            ><label
+              >Late penalties
+              <input
+                id="deduction-late"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0"
+            /></label>
+          </div>
+        </div>
+      </section>
+      <section class="admin-card payroll-table-card">
+        <div class="card-heading"><h2>Payroll Records</h2></div>
+        <p id="payroll-message" class="form-message"></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Days</th>
+                <th>Hours</th>
+                <th>Regular Pay</th>
+                <th>Overtime</th>
+                <th>Gross</th>
+                <th>Adjustments</th>
+                <th>Deductions</th>
+                <th>Net Pay</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="payroll-table">
+              <tr>
+                <td colspan="11" class="empty">
+                  Select a pay cycle to view records.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <div class="modal hidden" id="payroll-modal">
+      <div class="modal-card">
+        <header>
+          <h2>Edit Payroll Draft</h2>
+          <button class="modal-close" data-close="payroll-modal" type="button">
+            ×
+          </button>
+        </header>
+        <form id="payroll-edit-form">
+          <div id="deduction-editor" class="deduction-grid"></div>
+          <div class="field adjustment-field">
+            <label for="adjustments">Adjustments (+/-)</label
+            ><input
+              id="adjustments"
+              name="adjustments"
+              type="number"
+              step="0.01"
+            />
+          </div>
+          <p class="form-message error" id="payroll-error"></p>
+          <footer>
+            <button
+              class="button secondary"
+              data-close="payroll-modal"
+              type="button"
+            >
+              Cancel</button
+            ><button class="button primary" type="submit">Save Draft</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+    <div class="toast hidden" id="toast"></div>
+    <script src="/admin/nav.js"></script>
+    <script src="/admin/payroll.js"></script>
+  </body>
+</html>

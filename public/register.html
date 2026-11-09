@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Scrap-Wise</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="auth-page">
+      <section class="auth-card" aria-labelledby="page-title">
+        <div class="brand-mark" aria-hidden="true">♻</div>
+        <h1 id="page-title">Create Account</h1>
+        <p class="subtitle">Scrap-Wise Registration</p>
+        <form id="register-form" novalidate>
+          <div class="field">
+            <label for="fullName">Full Name</label
+            ><input
+              id="fullName"
+              name="fullName"
+              type="text"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="username">Username</label
+            ><input
+              id="username"
+              name="username"
+              type="text"
+              autocomplete="username"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                required
+              /><button
+                class="show-button"
+                type="button"
+                aria-label="Show password"
+              >
+                Show
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="confirmPassword">Confirm Password</label
+            ><input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="role">Role</label
+            ><select id="role" name="role" required>
+              <option value="">Select a role</option>
+              <option value="Kitchen Staff">Kitchen Staff</option>
+              <option value="POS Staff">POS Staff</option>
+            </select>
+          </div>
+          <p id="register-message" class="form-message" role="alert"></p>
+          <button class="button primary full" type="submit">
+            Submit Registration
+          </button>
+        </form>
+        <p id="back-login" class="auth-link hidden">
+          <a href="/">Back to login</a>
+        </p>
+      </section>
+    </main>
+    <script src="/auth.js"></script>
+  </body>
+</html>

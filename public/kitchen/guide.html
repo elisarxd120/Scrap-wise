@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Guide - Scrap-Wise</title>
+    <link rel="stylesheet" href="/kitchen/kitchen.css">
+  </head>
+  <body>
+    <div id="kitchen-nav"></div>
+    <main class="kitchen-main">
+      <header class="page-header">
+        <div><p class="eyebrow">Help center</p><h1>Kitchen Staff User Guide</h1></div>
+      </header>
+      <div class="low-stock-banner hidden" data-low-stock-banner>Warning: one or more kitchen items are at or below the reorder level.</div>
+      <section class="guide-grid">
+        <article class="kitchen-card" id="dashboard">
+          <h2>Dashboard</h2>
+          <p>Review today’s waste, bin capacity, low-stock items, processing status, and recent alerts. Use the quick-action buttons to open common tasks.</p>
+        </article>
+        <article class="kitchen-card" id="stock">
+          <h2>Stock In / Out</h2>
+          <ol>
+            <li>Select Stock In or Stock Out.</li>
+            <li>Choose an inventory item from the item list.</li>
+            <li>Enter a quantity greater than zero.</li>
+            <li>For Stock Out, select a reason.</li>
+            <li>Save the movement. Inventory quantities are updated automatically.</li>
+          </ol>
+          <p>Only movements created by you today can be updated.</p>
+        </article>
+        <article class="kitchen-card" id="inventory">
+          <h2>Inventory</h2>
+          <p>Search inventory, filter by category, or show low-stock items only. Green items are in stock, orange items are low, and red items are out of stock. Use Stock In to open the stock form for a selected item.</p>
+        </article>
+        <article class="kitchen-card" id="waste">
+          <h2>Waste Loading</h2>
+          <ol>
+            <li>Select the waste device used.</li>
+            <li>Enter the measured weight in kilograms.</li>
+            <li>Confirm the loading date and time.</li>
+            <li>Save the waste loading record.</li>
+          </ol>
+        </article>
+        <article class="kitchen-card" id="processing">
+          <h2>Processing Status</h2>
+          <ol>
+            <li>Select the processing date.</li>
+            <li>Choose Recorded, Processing, or Processed for each reading.</li>
+            <li>Enter before and after weights when available.</li>
+            <li>Select Update to save the row.</li>
+          </ol>
+        </article>
+        <article class="kitchen-card" id="alerts">
+          <h2>Alerts</h2>
+          <p>Use the unread filter to view only new alerts. Mark an individual alert or all alerts as read. The navigation badge is updated automatically.</p>
+        </article>
+      </section>
+    </main>
+    <div class="toast hidden" id="toast" role="status"></div>
+    <script src="/kitchen/nav.js"></script>
+  </body>
+</html>

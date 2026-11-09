@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Dashboard - Scrap-Wise</title>
+    <link rel="stylesheet" href="/kitchen/kitchen.css">
+  </head>
+  <body>
+    <div id="kitchen-nav"></div>
+    <main class="kitchen-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Kitchen operations</p>
+          <h1>Kitchen Dashboard</h1>
+        </div>
+        <a class="help-button" href="/kitchen/guide#dashboard" aria-label="Open dashboard help">?</a>
+      </header>
+      <div class="low-stock-banner hidden" data-low-stock-banner>Warning: one or more kitchen items are at or below the reorder level.</div>
+      <section class="quick-actions" aria-label="Quick actions">
+        <a class="quick-action" href="/kitchen/stock?type=in">Stock In</a>
+        <a class="quick-action" href="/kitchen/stock?type=out">Stock Out</a>
+        <a class="quick-action" href="/kitchen/waste">Load Waste</a>
+      </section>
+      <section class="summary-grid" id="summary-grid">
+        <article class="summary-card"><span>Low-stock items</span><strong id="low-stock-count">--</strong></article>
+        <article class="summary-card"><span>Waste weighed today</span><strong id="waste-today">-- kg</strong></article>
+        <article class="summary-card">
+          <span>Bin capacity</span><strong id="capacity-value">--%</strong>
+          <div class="capacity-track"><div class="capacity-bar" id="capacity-bar"></div></div>
+        </article>
+        <article class="summary-card"><span>Processing status</span><strong id="processing-status">--</strong></article>
+      </section>
+      <section class="content-grid">
+        <article class="kitchen-card">
+          <h2>Low-stock items</h2>
+          <div id="low-stock-list">Loading...</div>
+        </article>
+        <article class="kitchen-card">
+          <h2>Latest alerts</h2>
+          <div class="alert-list" id="recent-alerts">Loading...</div>
+        </article>
+      </section>
+    </main>
+    <div class="toast hidden" id="toast" role="status"></div>
+    <script src="/kitchen/nav.js"></script>
+    <script src="/kitchen/dashboard.js"></script>
+  </body>
+</html>

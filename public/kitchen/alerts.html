@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts - Scrap-Wise</title>
+    <link rel="stylesheet" href="/kitchen/kitchen.css">
+  </head>
+  <body>
+    <div id="kitchen-nav"></div>
+    <main class="kitchen-main">
+      <header class="page-header">
+        <div><p class="eyebrow">Notifications</p><h1>Alerts</h1></div>
+        <a class="help-button" href="/kitchen/guide#alerts" aria-label="Alerts help">?</a>
+      </header>
+      <div class="low-stock-banner hidden" data-low-stock-banner>Warning: one or more kitchen items are at or below the reorder level.</div>
+      <section class="kitchen-card">
+        <div class="toolbar">
+          <label class="toggle-label"><input id="unread-only" type="checkbox"> Unread only</label>
+          <button class="button primary" id="read-all" type="button">Mark All as Read</button>
+        </div>
+        <div id="alerts-list" class="alert-page-list">Loading...</div>
+      </section>
+    </main>
+    <div class="toast hidden" id="toast" role="status"></div>
+    <script src="/kitchen/nav.js"></script>
+    <script src="/kitchen/alerts.js"></script>
+  </body>
+</html>

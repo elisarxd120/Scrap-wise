@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waste Loading - Scrap-Wise</title>
+    <link rel="stylesheet" href="/kitchen/kitchen.css" />
+  </head>
+  <body>
+    <div id="kitchen-nav"></div>
+    <main class="kitchen-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Waste collection</p>
+          <h1>Waste Loading</h1>
+        </div>
+        <a
+          class="help-button"
+          href="/kitchen/guide#waste"
+          aria-label="Waste loading help"
+          >?</a
+        >
+      </header>
+      <div class="low-stock-banner hidden" data-low-stock-banner>
+        Warning: one or more kitchen items are at or below the reorder level.
+      </div>
+      <section class="kitchen-card">
+        <form id="waste-form">
+          <div class="form-grid">
+            <div class="field">
+              <label for="device-select">Staff Name</label>
+              <select id="device-select" required>
+                <option value="">Select a staff member</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="waste-weight">Weight (kg)</label>
+              <input
+                id="waste-weight"
+                type="number"
+                min="0"
+                step="0.01"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="loading-time">Loading date and time</label>
+              <input id="loading-time" type="datetime-local" required />
+            </div>
+          </div>
+          <p class="message hidden" id="waste-message"></p>
+          <button class="button primary full-button" type="submit">
+            Save Waste Loading
+          </button>
+        </form>
+      </section>
+      <section class="kitchen-card" style="margin-top: 14px">
+        <h2>Recent waste readings</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date and Time</th>
+                <th>Name</th>
+                <th>Weight</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="waste-table">
+              <tr>
+                <td colspan="4" class="empty">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <div class="toast hidden" id="toast" role="status"></div>
+    <script src="/kitchen/nav.js"></script>
+    <script src="/kitchen/waste.js"></script>
+  </body>
+</html>

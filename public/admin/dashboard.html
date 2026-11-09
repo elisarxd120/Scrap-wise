@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Scrap-Wise</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div id="admin-nav"></div>
+    <main class="admin-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Operations overview</p>
+          <h1>Admin Dashboard</h1>
+          <p class="header-context" id="dashboard-context">Loading current overview...</p>
+        </div>
+        <div class="header-actions">
+          <button class="button secondary" type="button" onclick="loadDashboard()">↻ Refresh</button>
+        </div>
+      </header>
+      <section class="summary-grid" id="summary-grid">
+        <div class="loading-card">Loading dashboard...</div>
+      </section>
+      <section class="chart-grid">
+        <article class="admin-card">
+          <div class="card-heading"><h2>Sales - Last 7 Days</h2></div>
+          <canvas id="sales-chart"></canvas>
+        </article>
+        <article class="admin-card">
+          <div class="card-heading"><h2>Waste - Last 7 Days</h2></div>
+          <canvas id="waste-chart"></canvas>
+        </article>
+      </section>
+      <section class="content-grid">
+        <article class="admin-card">
+          <div class="card-heading">
+            <h2>Low Stock</h2>
+            <a href="/admin/inventory">View inventory</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>On hand</th>
+                  <th>Reorder at</th>
+                </tr>
+              </thead>
+              <tbody id="low-stock-body">
+                <tr>
+                  <td colspan="3">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+        <article class="admin-card">
+          <div class="card-heading">
+            <h2>Recent Transactions</h2>
+            <a href="/admin/transactions">View all</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cashier</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="transactions-body">
+                <tr>
+                  <td colspan="4">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+      <section class="admin-card alerts-card">
+        <div class="card-heading">
+          <h2>Recent Alerts</h2>
+          <a href="/admin/settings">Settings</a>
+        </div>
+        <div id="recent-alerts"></div>
+      </section>
+    </main>
+    <div class="toast hidden" id="toast" role="status"></div>
+    <script src="/admin/nav.js"></script>
+    <script src="/admin/dashboard.js"></script>
+  </body>
+</html>

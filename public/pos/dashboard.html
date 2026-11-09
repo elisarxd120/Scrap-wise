@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POS - Scrap-Wise</title>
+    <link rel="stylesheet" href="/pos/pos.css" />
+  </head>
+  <body>
+    <header class="pos-header">
+      <div class="brand"><span>SW</span><div><strong>Scrap-Wise</strong><small>Point of Sale</small></div></div>
+      <div class="header-actions"><button class="header-button" id="summary-button">Shift Summary</button><button class="header-button" id="held-button">Held Orders <b id="held-count">0</b></button><form method="POST" action="/logout"><button class="logout-button" type="submit">Logout</button></form></div>
+    </header>
+
+    <main class="pos-shell">
+      <section class="menu-panel">
+        <div class="menu-toolbar">
+          <div><p class="eyebrow">Today’s Menu</p><h1>Select items</h1></div>
+          <div class="menu-toolbar-actions"><button class="header-button" id="edit-menu-button" type="button">Edit Menu</button><label class="search"><span aria-hidden="true">⌕</span><input id="menu-search" type="search" placeholder="Search menu" /></label></div>
+        </div>
+        <div class="category-tabs" id="category-tabs">
+          <button class="active" data-filter="all">All</button>
+          <button data-filter="available">Available</button>
+          <button data-filter="unavailable">Unavailable</button>
+        </div>
+        <div class="menu-grid" id="menu-grid"><p class="loading">Loading menu...</p></div>
+      </section>
+
+      <aside class="order-panel">
+        <div class="order-head"><div><p class="eyebrow">Current Order</p><h2 id="order-title">New Order</h2></div><button class="clear-button" id="clear-order" type="button">Clear</button></div>
+        <div class="order-type" aria-label="Order type">
+          <button class="active" type="button" data-order-type="dine-in">Dine-in</button>
+          <button type="button" data-order-type="take-out">Take-out</button>
+        </div>
+        <div class="table-number-wrap" id="table-number-wrap"><label for="table-number">Table number</label><input id="table-number" type="text" placeholder="Enter table number" /></div>
+        <div class="order-items" id="order-items"><div class="empty-order"><span>+</span><p>No items yet</p><small>Select an item from the menu</small></div></div>
+        <div class="order-total"><div><span>Subtotal</span><strong id="subtotal">PHP 0.00</strong></div><div class="grand-total"><span>Total</span><strong id="total">PHP 0.00</strong></div></div>
+        <div class="order-actions"><button class="hold-button" id="hold-order" type="button">Hold Order</button><button class="pay-button" id="pay-order" type="button">Payment &amp; Receipt</button></div>
+      </aside>
+    </main>
+
+    <div class="modal hidden" id="menu-modal">
+      <div class="modal-card menu-edit-card">
+        <header><div><p class="eyebrow">Menu Management</p><h2>Edit Menu Item</h2></div><button class="modal-close" data-close="menu-modal" type="button">×</button></header>
+        <form id="menu-edit-form">
+          <div class="menu-edit-fields">
+            <div class="field"><label for="menu-item-select">Menu item</label><select id="menu-item-select"></select></div>
+            <div class="field"><label for="menu-name">Name</label><input id="menu-name" required /></div>
+            <div class="field"><label for="menu-price">Price</label><input id="menu-price" type="number" min="0" step="0.01" required /></div>
+            <label class="availability-check"><input id="menu-available" type="checkbox" /> Item is available</label>
+          </div>
+          <p class="modal-error" id="menu-error"></p>
+          <footer><button class="secondary-button" data-close="menu-modal" type="button">Cancel</button><button class="pay-button" type="submit">Save Menu Item</button></footer>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="payment-modal">
+      <div class="modal-card payment-card">
+        <header><div><p class="eyebrow">Payment</p><h2>Complete payment</h2></div><button class="modal-close" data-close="payment-modal" type="button">×</button></header>
+        <div class="payment-body">
+          <div><label>Payment method</label><div class="payment-methods" id="payment-methods"><button class="active" type="button" data-method="Cash">Cash</button><button type="button" data-method="Card">Card</button><button type="button" data-method="GCash">GCash</button><button type="button" data-method="PayMaya">PayMaya</button></div><label for="discount-percentage">Discount %</label><input id="discount-percentage" type="number" min="0" max="100" step="0.01" value="0" /><label for="cash-amount">Amount received</label><input id="cash-amount" type="number" min="0" step="0.01" placeholder="0.00" /></div>
+          <div class="payment-total"><span>Amount due</span><strong id="payment-total">PHP 0.00</strong><small>Change: <b id="change-total">PHP 0.00</b></small></div>
+        </div>
+        <p class="modal-error" id="payment-error"></p>
+        <footer><button class="secondary-button" data-close="payment-modal" type="button">Back</button><button class="pay-button" id="confirm-payment" type="button">Confirm Payment</button></footer>
+      </div>
+    </div>
+
+    <div class="drawer hidden" id="held-drawer"><div class="drawer-card"><header><div><p class="eyebrow">Orders</p><h2>Held Orders</h2></div><button class="modal-close" data-close="held-drawer" type="button">×</button></header><div id="held-list" class="held-list"></div></div></div>
+
+    <div class="drawer hidden" id="summary-drawer"><div class="drawer-card"><header><div><p class="eyebrow">Current Shift</p><h2>Shift Summary</h2></div><button class="modal-close" data-close="summary-drawer" type="button">×</button></header><div class="summary-stats"><div><span>Transactions</span><strong id="summary-count">0</strong></div><div><span>Total Sales</span><strong id="summary-sales">PHP 0.00</strong></div></div><div id="summary-list" class="summary-list"></div></div></div>
+
+    <div class="modal hidden" id="receipt-modal"><div class="modal-card receipt-card"><div id="receipt-content"></div><footer><button class="secondary-button" data-close="receipt-modal" type="button">Close</button><button class="pay-button" id="print-receipt" type="button">Print Receipt</button></footer></div></div>
+    <div class="toast hidden" id="toast"></div>
+    <script src="/pos/pos.js"></script>
+  </body>
+</html>

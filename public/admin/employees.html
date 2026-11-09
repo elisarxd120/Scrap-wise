@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employees - Scrap-Wise</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+  </head>
+  <body>
+    <div id="admin-nav"></div>
+    <main class="admin-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Human Resources</p>
+          <h1>Employees</h1>
+          <p class="employee-counts" id="employee-counts">Loading employee count...</p>
+        </div>
+        <button class="button primary" id="add-employee" type="button">
+          <span aria-hidden="true">＋</span> Add Employee
+        </button>
+      </header>
+      <section class="admin-card">
+        <div class="toolbar employee-toolbar">
+          <label class="search-box"
+            ><span>Search</span
+            ><input
+              id="employee-search"
+              type="search"
+              placeholder="Name, ID, or position"
+          /></label>
+          <label class="search-box"><span>Status</span><select id="employee-status-filter"><option value="">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
+        </div>
+        <div class="table-wrap">
+          <table class="responsive-table">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Position</th>
+                <th>Rate</th>
+                <th>Contact</th>
+                <th>Status</th>
+                <th>Date Hired</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="employee-table">
+              <tr>
+                <td colspan="7" class="empty">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <div class="modal hidden" id="employee-modal">
+      <div class="modal-card">
+        <header>
+          <h2 id="employee-modal-title">Add Employee</h2>
+          <button class="modal-close" data-close="employee-modal" type="button">
+            ×
+          </button>
+        </header>
+        <form id="employee-form">
+          <div class="form-grid">
+            <div class="field">
+              <label for="employee_id">Employee ID</label
+              ><input id="employee_id" name="employee_id" required />
+            </div>
+            <div class="field">
+              <label for="full_name">Full Name</label
+              ><input id="full_name" name="full_name" required />
+            </div>
+            <div class="field">
+              <label for="position">Position</label
+              ><input id="position" name="position" required />
+            </div>
+            <div class="field">
+              <label for="rate">Daily or Hourly Rate</label
+              ><input
+                id="rate"
+                name="rate"
+                type="number"
+                min="0"
+                step="0.01"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="rate_type">Rate Type</label
+              ><select id="rate_type" name="rate_type">
+                <option value="daily">Daily</option>
+                <option value="hourly">Hourly</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="contact_number">Contact Number</label
+              ><input
+                id="contact_number"
+                name="contact_number"
+                inputmode="tel"
+              />
+            </div>
+            <div class="field">
+              <label for="status">Status</label
+              ><select id="status" name="status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="date_hired">Date Hired</label
+              ><input id="date_hired" name="date_hired" type="date" required />
+            </div>
+          </div>
+          <p class="form-message error" id="employee-error"></p>
+          <footer>
+            <button
+              class="button secondary"
+              data-close="employee-modal"
+              type="button"
+            >
+              Cancel</button
+            ><button class="button primary" type="submit">Save Employee</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+    <div class="modal hidden" id="employee-delete-modal">
+      <div class="modal-card delete-modal-card">
+        <header><h2>Delete employee</h2></header>
+        <div class="delete-modal-content">
+          <p id="employee-delete-message">This employee will be permanently deleted.</p>
+        </div>
+        <footer>
+          <button class="button secondary" id="employee-delete-cancel" type="button">Cancel</button>
+          <button class="button danger" id="employee-delete-confirm" type="button">Delete Employee</button>
+        </footer>
+      </div>
+    </div>
+    <div class="toast hidden" id="toast"></div>
+    <script src="/admin/nav.js"></script>
+    <script src="/admin/employees.js"></script>
+  </body>
+</html>
