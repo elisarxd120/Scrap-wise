@@ -68,7 +68,6 @@ if (!seededKitchen) {
   );
 }
 
-
 // Admin module tables. These are created automatically on server startup.
 db.exec(`
   CREATE TABLE IF NOT EXISTS employees (
@@ -434,10 +433,6 @@ if (db.prepare("SELECT COUNT(*) AS count FROM settings").get().count === 0) {
   db.prepare("INSERT INTO settings (key, value) VALUES (?, ?)").run(
     "waste_warning_percent",
     "80",
-  );
-  db.prepare("INSERT INTO settings (key, value) VALUES (?, ?)").run(
-    "default_low_stock",
-    "10",
   );
 }
 

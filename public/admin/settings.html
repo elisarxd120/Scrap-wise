@@ -1,5 +1,164 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Settings - Scrap-Wise</title><link rel="stylesheet" href="/admin/admin.css"></head><body><div id="admin-nav"></div><main class="admin-main"><header class="page-header"><div><p class="eyebrow">System Configuration</p><h1>Settings</h1></div></header>
-<section class="admin-card"><div class="card-heading"><h2>Alert Thresholds</h2></div><form id="settings-form"><div class="form-grid"><div class="field"><label for="waste_capacity_kg">Waste Capacity Limit (kg)</label><input id="waste_capacity_kg" name="waste_capacity_kg" type="number" min="0.01" step="0.01" required></div><div class="field"><label for="waste_warning_percent">Warning Percentage (%)</label><input id="waste_warning_percent" name="waste_warning_percent" type="number" min="1" max="100" step="1" required></div><div class="field"><label for="default_low_stock">Default Low-Stock Level</label><input id="default_low_stock" name="default_low_stock" type="number" min="0" step="0.01" required></div></div><p class="form-message error" id="settings-error"></p><footer><button class="button primary" type="submit">Save Thresholds</button></footer></form></section>
-<section class="admin-card movement-section"><header class="card-heading"><h2>IoT Devices</h2><button class="button primary" id="add-device" type="button">+ Add Device</button></header><div class="table-wrap"><table><thead><tr><th>Device ID</th><th>Name / Location</th><th>Status</th><th>Last Reading</th><th>Last Received</th><th>Calibration Date</th><th>Actions</th></tr></thead><tbody id="device-table"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody></table></div></section></main>
-<div class="modal hidden" id="device-modal"><div class="modal-card"><header><h2 id="device-modal-title">Add Device</h2><button class="modal-close" data-close="device-modal" type="button">×</button></header><form id="device-form"><div class="form-grid"><div class="field"><label for="device_id">Device ID</label><input id="device_id" name="device_id" required></div><div class="field"><label for="device_name">Name / Location</label><input id="device_name" name="name" placeholder="Kitchen Scale 1" required></div><div class="field"><label for="calibration_date">Calibration Date</label><input id="calibration_date" name="calibration_date" type="date"></div></div><p class="form-message error" id="device-error"></p><footer><button class="button secondary" data-close="device-modal" type="button">Cancel</button><button class="button primary" type="submit">Save Device</button></footer></form></div></div>
-<div class="modal hidden" id="key-modal"><div class="modal-card"><header><h2>Device API Key</h2><button class="modal-close" data-close="key-modal" type="button">×</button></header><div style="padding:18px"><p>Send this key in the <strong>x-api-key</strong> header.</p><div class="field"><label for="generated-key">API Key</label><input id="generated-key" readonly></div><p class="form-message">Copy this key now. It is not shown again except after another regeneration.</p><footer><button class="button secondary" data-close="key-modal" type="button">Close</button><button class="button primary" id="copy-key" type="button">Copy Key</button></footer></div></div></div><div class="toast hidden" id="toast"></div><script src="/admin/nav.js"></script><script src="/admin/settings.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Settings - Scrap-Wise</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+  </head>
+  <body>
+    <div id="admin-nav"></div>
+    <main class="admin-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">System Configuration</p>
+          <h1>Settings</h1>
+        </div>
+      </header>
+      <section class="admin-card">
+        <div class="card-heading"><h2>Alert Thresholds</h2></div>
+        <form id="settings-form">
+          <div class="form-grid">
+            <div class="field">
+              <label for="waste_capacity_kg">Waste Capacity Limit (kg)</label
+              ><input
+                id="waste_capacity_kg"
+                name="waste_capacity_kg"
+                type="number"
+                min="0.01"
+                step="0.01"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="waste_warning_percent">Warning Percentage (%)</label
+              ><input
+                id="waste_warning_percent"
+                name="waste_warning_percent"
+                type="number"
+                min="1"
+                max="100"
+                step="1"
+                required
+              />
+            </div>
+          </div>
+          <p class="form-message error" id="settings-error"></p>
+          <footer>
+            <button class="button primary" type="submit">
+              Save Thresholds
+            </button>
+          </footer>
+        </form>
+      </section>
+      <section class="admin-card movement-section">
+        <header class="card-heading">
+          <h2>IoT Devices</h2>
+          <button class="button primary" id="add-device" type="button">
+            + Add Device
+          </button>
+        </header>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Device ID</th>
+                <th>Name / Location</th>
+                <th>Status</th>
+                <th>Last Reading</th>
+                <th>Last Received</th>
+                <th>Calibration Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="device-table">
+              <tr>
+                <td colspan="7" class="empty">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <div class="modal hidden" id="device-modal">
+      <div class="modal-card">
+        <header>
+          <h2 id="device-modal-title">Add Device</h2>
+          <button class="modal-close" data-close="device-modal" type="button">
+            ×
+          </button>
+        </header>
+        <form id="device-form">
+          <div class="form-grid">
+            <div class="field">
+              <label for="device_id">Device ID</label
+              ><input id="device_id" name="device_id" required />
+            </div>
+            <div class="field">
+              <label for="device_name">Name / Location</label
+              ><input
+                id="device_name"
+                name="name"
+                placeholder="Kitchen Scale 1"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="calibration_date">Calibration Date</label
+              ><input
+                id="calibration_date"
+                name="calibration_date"
+                type="date"
+              />
+            </div>
+          </div>
+          <p class="form-message error" id="device-error"></p>
+          <footer>
+            <button
+              class="button secondary"
+              data-close="device-modal"
+              type="button"
+            >
+              Cancel</button
+            ><button class="button primary" type="submit">Save Device</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+    <div class="modal hidden" id="key-modal">
+      <div class="modal-card">
+        <header>
+          <h2>Device API Key</h2>
+          <button class="modal-close" data-close="key-modal" type="button">
+            ×
+          </button>
+        </header>
+        <div style="padding: 18px">
+          <p>Send this key in the <strong>x-api-key</strong> header.</p>
+          <div class="field">
+            <label for="generated-key">API Key</label
+            ><input id="generated-key" readonly />
+          </div>
+          <p class="form-message">
+            Copy this key now. It is not shown again except after another
+            regeneration.
+          </p>
+          <footer>
+            <button
+              class="button secondary"
+              data-close="key-modal"
+              type="button"
+            >
+              Close</button
+            ><button class="button primary" id="copy-key" type="button">
+              Copy Key
+            </button>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div class="toast hidden" id="toast"></div>
+    <script src="/admin/nav.js"></script>
+    <script src="/admin/settings.js"></script>
+  </body>
+</html>

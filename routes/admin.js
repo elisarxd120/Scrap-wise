@@ -35,62 +35,74 @@ router.get("/api/nav", (req, res) => {
 
 router.get("/api/dashboard", (req, res) => {
   const today = localDateString(new Date());
-  const todayStart = `${today}T00:00:00.000Z`;
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowStart = `${localDateString(tomorrow)}T00:00:00.000Z`;
-
-  const sales = db
-    .prepare(
-      `SELECT COALESCE(SUM(total), 0) AS value, COUNT(*) AS count FROM transactions WHERE status = 'completed' AND transaction_date >= ? AND transaction_date < ?`,
-    )
-    .get(todayStart, tomorrowStart);
   const lowStock = db
     .prepare(
       "SELECT COUNT(*) AS count FROM inventory_items WHERE quantity <= reorder_level",
     )
     .get().count;
-  const employeesPresent = db
+  const totalOrders = db
     .prepare(
-      "SELECT COUNT(*) AS count FROM attendance WHERE attendance_date = ? AND status IN ('present', 'late')",
+      "SELECT COUNT(*) AS count FROM transactions WHERE status = 'completed'",
+    )
+    .get().count;
+  const totalProducts = db
+    .prepare("SELECT COUNT(*) AS count FROM inventory_items")
+    .get().count;
+  const stockMovementsToday = db
+    .prepare(
+      "SELECT COUNT(*) AS count FROM stock_movements WHERE movement_date = ?",
     )
     .get(today).count;
-  const wasteToday = db
-    .prepare(
-      "SELECT COALESCE(SUM(weight), 0) AS value FROM waste_logs WHERE substr(recorded_at, 1, 10) = ?",
-    )
-    .get(today).value;
-  const pendingApprovals = db
-    .prepare("SELECT COUNT(*) AS count FROM users WHERE status = 'pending'")
-    .get().count;
-
-  const salesDays = [];
-  const wasteDays = [];
-  const labels = [];
-  for (let offset = 6; offset >= 0; offset--) {
-    const date = new Date();
-    date.setDate(date.getDate() - offset);
-    const dateText = localDateString(date);
-    const dayStart = `${dateText}T00:00:00.000Z`;
-    const next = new Date(date);
-    next.setDate(next.getDate() + 1);
-    const nextStart = `${localDateString(next)}T00:00:00.000Z`;
-    labels.push(
-      date.toLocaleDateString("en-PH", { month: "short", day: "numeric" }),
+  const orderCountForRange = db.prepare(
+    "SELECT COUNT(*) AS count FROM transactions WHERE status = 'completed' AND transaction_date >= ? AND transaction_date < ?",
+  );
+  const weeklyLabels = [];
+  const weeklyOrders = [];
+  const currentWeek = new Date();
+  currentWeek.setDate(currentWeek.getDate() - ((currentWeek.getDay() + 6) % 7));
+  currentWeek.setHours(0, 0, 0, 0);
+  for (let offset = 7; offset >= 0; offset--) {
+    const weekStart = new Date(currentWeek);
+    weekStart.setDate(weekStart.getDate() - offset * 7);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekEnd.getDate() + 7);
+    weeklyLabels.push(
+      weekStart.toLocaleDateString("en-PH", { month: "short", day: "numeric" }),
     );
-    salesDays.push(
-      db
-        .prepare(
-          "SELECT COALESCE(SUM(total), 0) AS value FROM transactions WHERE status = 'completed' AND transaction_date >= ? AND transaction_date < ?",
-        )
-        .get(dayStart, nextStart).value,
+    weeklyOrders.push(
+      orderCountForRange.get(
+        `${localDateString(weekStart)}T00:00:00.000Z`,
+        `${localDateString(weekEnd)}T00:00:00.000Z`,
+      ).count,
     );
-    wasteDays.push(
-      db
-        .prepare(
-          "SELECT COALESCE(SUM(weight), 0) AS value FROM waste_logs WHERE substr(recorded_at, 1, 10) = ?",
-        )
-        .get(dateText).value,
+  }
+  const monthlyLabels = [];
+  const monthlyOrders = [];
+  const currentMonth = new Date();
+  currentMonth.setDate(1);
+  currentMonth.setHours(0, 0, 0, 0);
+  for (let offset = 11; offset >= 0; offset--) {
+    const monthStart = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() - offset,
+      1,
+    );
+    const monthEnd = new Date(
+      monthStart.getFullYear(),
+      monthStart.getMonth() + 1,
+      1,
+    );
+    monthlyLabels.push(
+      monthStart.toLocaleDateString("en-PH", {
+        month: "short",
+        year: "2-digit",
+      }),
+    );
+    monthlyOrders.push(
+      orderCountForRange.get(
+        `${localDateString(monthStart)}T00:00:00.000Z`,
+        `${localDateString(monthEnd)}T00:00:00.000Z`,
+      ).count,
     );
   }
 
@@ -112,14 +124,15 @@ router.get("/api/dashboard", (req, res) => {
 
   res.json({
     cards: {
-      todaysSales: sales.value,
-      todaysTransactions: sales.count,
+      totalOrders,
+      totalProducts,
       lowStockItems: lowStock,
-      employeesPresent,
-      wasteToday,
-      pendingApprovals,
+      stockMovementsToday,
     },
-    charts: { labels, sales: salesDays, waste: wasteDays },
+    orderTrends: {
+      weekly: { labels: weeklyLabels, orders: weeklyOrders },
+      monthly: { labels: monthlyLabels, orders: monthlyOrders },
+    },
     lowStockItems,
     recentTransactions,
     recentAlerts,
@@ -1363,14 +1376,12 @@ router.get("/api/settings", (req, res) => {
   res.json({
     waste_capacity_kg: settings.waste_capacity_kg || "50",
     waste_warning_percent: settings.waste_warning_percent || "80",
-    default_low_stock: settings.default_low_stock || "10",
   });
 });
 
 router.put("/api/settings", (req, res) => {
   const capacity = Number(req.body.waste_capacity_kg);
   const warning = Number(req.body.waste_warning_percent);
-  const lowStock = Number(req.body.default_low_stock);
   if (!Number.isFinite(capacity) || capacity <= 0)
     return res
       .status(400)
@@ -1379,18 +1390,12 @@ router.put("/api/settings", (req, res) => {
     return res
       .status(400)
       .json({ error: "Warning percentage must be between 1 and 100." });
-  if (!Number.isFinite(lowStock) || lowStock < 0)
-    return res
-      .status(400)
-      .json({ error: "Default low-stock level cannot be negative." });
-
   const save = db.prepare(
     "INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
   );
   const update = db.transaction(() => {
     save.run("waste_capacity_kg", String(Math.round(capacity * 100) / 100));
     save.run("waste_warning_percent", String(Math.round(warning * 100) / 100));
-    save.run("default_low_stock", String(Math.round(lowStock * 100) / 100));
   });
   update();
   logAudit(
@@ -1402,7 +1407,6 @@ router.put("/api/settings", (req, res) => {
     JSON.stringify({
       waste_capacity_kg: capacity,
       waste_warning_percent: warning,
-      default_low_stock: lowStock,
     }),
   );
   res.json({ success: true });

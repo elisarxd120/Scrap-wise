@@ -433,12 +433,12 @@ The waste-reading endpoint requires the header `x-api-key` and the matching devi
 
 ### A-07 behavior
 
-- Admin can configure waste capacity, warning percentage, and default low-stock level.
+- Admin can configure waste capacity and warning percentage.
 - Device IDs and names are validated and duplicate IDs are rejected.
 - Devices support Add, Edit, Delete, and API-key regeneration.
 - Device status is calculated as online when received within the last 15 minutes; otherwise it is offline.
 - Waste readings update last reading/received time and are inserted into `waste_logs`.
-- Waste capacity thresholds and default low-stock thresholds create unread notifications.
+- Waste capacity thresholds and item reorder levels create unread notifications.
 - Alert-generation actions are protected and notification dropdown data continues to use the existing alert APIs.
 - Settings and IoT CRUD actions are recorded in `audit_log`.
 

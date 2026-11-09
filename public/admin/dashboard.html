@@ -14,23 +14,36 @@
         <div>
           <p class="eyebrow">Operations overview</p>
           <h1>Admin Dashboard</h1>
-          <p class="header-context" id="dashboard-context">Loading current overview...</p>
+          <p class="header-context" id="dashboard-context">
+            Loading current overview...
+          </p>
         </div>
         <div class="header-actions">
-          <button class="button secondary" type="button" onclick="loadDashboard()">↻ Refresh</button>
+          <button
+            class="button secondary"
+            type="button"
+            onclick="loadDashboard()"
+          >
+            ↻ Refresh
+          </button>
         </div>
       </header>
-      <section class="summary-grid" id="summary-grid">
+      <section class="summary-grid dashboard-summary-grid" id="summary-grid">
         <div class="loading-card">Loading dashboard...</div>
       </section>
-      <section class="chart-grid">
-        <article class="admin-card">
-          <div class="card-heading"><h2>Sales - Last 7 Days</h2></div>
-          <canvas id="sales-chart"></canvas>
-        </article>
-        <article class="admin-card">
-          <div class="card-heading"><h2>Waste - Last 7 Days</h2></div>
-          <canvas id="waste-chart"></canvas>
+      <section class="chart-grid order-trend-grid">
+        <article class="admin-card order-trend-card">
+          <div class="card-heading">
+            <h2>Order Trends</h2>
+            <label class="chart-period">
+              <span>Period</span>
+              <select id="order-trend-period" aria-label="Order trend period">
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </label>
+          </div>
+          <canvas id="order-trend-chart"></canvas>
         </article>
       </section>
       <section class="content-grid">

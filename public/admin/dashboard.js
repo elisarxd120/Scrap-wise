@@ -1,5 +1,5 @@
-let salesChart;
-let wasteChart;
+let orderTrendChart;
+let orderTrendData;
 
 async function loadDashboard() {
   try {
@@ -7,7 +7,8 @@ async function loadDashboard() {
     if (!response.ok) throw new Error("Dashboard request failed");
     const data = await response.json();
     renderCards(data.cards);
-    renderCharts(data.charts);
+    orderTrendData = data.orderTrends;
+    renderOrderTrend();
     renderLowStock(data.lowStockItems);
     renderTransactions(data.recentTransactions);
     renderAlerts(data.recentAlerts);
@@ -20,12 +21,25 @@ async function loadDashboard() {
 
 function renderCards(cards) {
   const items = [
-    ["Today's Sales", formatMoney(cards.todaysSales), "Completed sales", "primary-kpi"],
-    ["Transactions Today", cards.todaysTransactions, "Orders completed today", ""],
-    ["Low-Stock Items", cards.lowStockItems, "Needs inventory review", "attention"],
-    ["Employees Present", cards.employeesPresent, "Present or late today", ""],
-    ["Waste Today", `${Number(cards.wasteToday).toFixed(2)} kg`, "Recorded waste weight", "attention"],
-    ["Pending Approvals", cards.pendingApprovals, "Accounts awaiting review", "attention"],
+    [
+      "Total Orders",
+      cards.totalOrders,
+      "Completed transactions",
+      "primary-kpi",
+    ],
+    ["Total Products", cards.totalProducts, "Inventory items", ""],
+    [
+      "Low-Stock Items",
+      cards.lowStockItems,
+      "Needs inventory review",
+      "attention",
+    ],
+    [
+      "Stock Movements Today",
+      cards.stockMovementsToday,
+      "Recorded stock-in and stock-out",
+      "",
+    ],
   ];
   document.getElementById("summary-grid").innerHTML = items
     .map(
@@ -35,44 +49,22 @@ function renderCards(cards) {
     .join("");
 }
 
-function renderCharts(charts) {
-  if (salesChart) salesChart.destroy();
-  if (wasteChart) wasteChart.destroy();
-  salesChart = new Chart(document.getElementById("sales-chart"), {
-    type: "line",
-    data: {
-      labels: charts.labels,
-      datasets: [
-        {
-          label: "Sales (PHP)",
-          data: charts.sales,
-          borderColor: "#176B45",
-          backgroundColor: "rgba(23,107,69,.10)",
-          fill: true,
-          tension: 0.3,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { color: "#637268" } },
-        y: { beginAtZero: true, grid: { color: "#EDF2EE" }, ticks: { color: "#637268" } },
-      },
-    },
-  });
-  wasteChart = new Chart(document.getElementById("waste-chart"), {
+function renderOrderTrend() {
+  if (!orderTrendData) return;
+  if (orderTrendChart) orderTrendChart.destroy();
+  const period = document.getElementById("order-trend-period").value;
+  const trend = orderTrendData[period];
+  orderTrendChart = new Chart(document.getElementById("order-trend-chart"), {
     type: "bar",
     data: {
-      labels: charts.labels,
+      labels: trend.labels,
       datasets: [
         {
-          label: "Waste (kg)",
-          data: charts.waste,
-          backgroundColor: "#E58A23",
-          borderRadius: 6,
+          label: "Completed orders",
+          data: trend.orders,
+          backgroundColor: "#176B45",
+          borderRadius: 5,
+          maxBarThickness: 36,
         },
       ],
     },
@@ -81,8 +73,15 @@ function renderCharts(charts) {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { grid: { display: false }, ticks: { color: "#637268" } },
-        y: { beginAtZero: true, grid: { color: "#EDF2EE" }, ticks: { color: "#637268" } },
+        x: {
+          grid: { display: false },
+          ticks: { color: "#637268", maxRotation: 0 },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { precision: 0, color: "#637268" },
+          grid: { color: "#EDF2EE" },
+        },
       },
     },
   });
@@ -153,4 +152,7 @@ function showToast(message, isError = false) {
   setTimeout(() => toast.classList.add("hidden"), 3500);
 }
 
+document
+  .getElementById("order-trend-period")
+  .addEventListener("change", renderOrderTrend);
 loadDashboard();

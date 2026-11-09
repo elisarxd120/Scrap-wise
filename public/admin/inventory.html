@@ -57,6 +57,17 @@
           </button>
         </header>
         <div class="toolbar filter-toolbar">
+          <label class="search-box">
+            <span>View by</span>
+            <select id="movement-date-mode">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+            </select>
+          </label>
+          <label class="search-box">
+            <span id="movement-date-label">Selected day</span>
+            <input id="movement-date-filter" type="date" />
+          </label>
           <label class="search-box"
             ><span>Filter by Item</span
             ><select id="movement-item-filter">

@@ -92,11 +92,25 @@ document
   });
 async function loadMovements() {
   const filter = document.getElementById("movement-item-filter").value;
+  const mode = document.getElementById("movement-date-mode").value;
+  const selectedDate = document.getElementById("movement-date-filter").value;
   const response = await fetch(
     `/admin/api/inventory/movements?item_id=${encodeURIComponent(filter)}`,
   );
   if (!response.ok) return showToast("Unable to load stock movements.", true);
-  const movements = await response.json();
+  const allMovements = await response.json();
+  const selected = new Date(`${selectedDate}T00:00:00`);
+  const start = new Date(selected);
+  if (mode === "weekly")
+    start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
+  const end = new Date(start);
+  if (mode === "weekly") end.setDate(end.getDate() + 6);
+  const startDate = formatInputDate(start);
+  const endDate = formatInputDate(end);
+  const movements = allMovements.filter((row) => {
+    const movementDate = String(row.movement_date).slice(0, 10);
+    return movementDate >= startDate && movementDate <= endDate;
+  });
   document.getElementById("movement-table").innerHTML = movements.length
     ? movements
         .map(
@@ -205,10 +219,29 @@ document.getElementById("item-search").addEventListener("input", loadInventory);
 document
   .getElementById("movement-item-filter")
   .addEventListener("change", loadMovements);
+document.getElementById("movement-date-mode").addEventListener("change", () => {
+  document.getElementById("movement-date-label").textContent =
+    document.getElementById("movement-date-mode").value === "weekly"
+      ? "Date in week"
+      : "Selected day";
+  loadMovements();
+});
+document
+  .getElementById("movement-date-filter")
+  .addEventListener("change", loadMovements);
+document.getElementById("movement-date-filter").value = formatInputDate(
+  new Date(),
+);
 function formatQuantity(value) {
   return new Intl.NumberFormat("en-PH", { maximumFractionDigits: 2 }).format(
     Number(value || 0),
   );
+}
+function formatInputDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 function escapeHtml(value) {
   return String(value ?? "").replace(

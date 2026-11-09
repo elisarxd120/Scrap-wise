@@ -346,8 +346,7 @@ Required non-sample settings:
 ```sql
 insert into public.settings (key, value) values
   ('waste_capacity_kg', '50'),
-  ('waste_warning_percent', '80'),
-  ('default_low_stock', '10')
+  ('waste_warning_percent', '80')
 on conflict (key) do update set value = excluded.value;
 ```
 
